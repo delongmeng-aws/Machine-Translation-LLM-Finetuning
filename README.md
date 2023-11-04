@@ -1,18 +1,18 @@
-## Machine translation using Huggingface t5 model with fine-tuning
+## Machine translation using Hugging Face t5 model with fine-tuning
 
 ### Dataset
-The dataset contains translation from EN (source language) to multiple target languages (DE, ES, FR, IT, PT). The dataset incorporates a variety of gender phenomena, contains diverse sentence structures, covers morphologically different languages, and is gender balanced. 
+The dataset contains translation from English (EN, source language) to multiple target languages, including German (DE), Spanish (ES), French (FR), Italian (IT), and Portuguese (PT). The dataset incorporates a variety of gender phenomena, contains diverse sentence structures, covers morphologically different languages, and is gender balanced. The dataset is split into training set (12,000 samples) and test set (3000 samples).
 
 ### Bias
 Bias can exist in macine translation since the vast amount of data that a translation model is trained on can contain inherent biases. One such example is gender bias. In this dataset, sentences to translate contain references to male and female gender identities. The performance of the model can then be evaluated using a custom version of BiLingual Evaluation Understudy (BLEU) that considers both overall translation performance and the performance gap for different gender identities.
 
-### Pretrained Model, fine-tuning, and inference
+### Pre-trained Model, fine-tuning, and inference
 
-Here we use the pretrained [google/flan-t5-xl model](https://huggingface.co/google/flan-t5-xl) (3B parameters) from the Hugging Face platform.
+Here we use the pre-trained [google/flan-t5-xl model](https://huggingface.co/google/flan-t5-xl) (3B parameters) from the Hugging Face platform.
 
-In the `machine-translation-t5-xl-pretrained` notebook, we directly use the pretrained model for inference. Compute resource: Amazon SageMaker notebook instance (ml.g4dn.xlarge).
+In the `machine-translation-t5-xl-pretrained` notebook ([link](https://github.com/delongmeng/Machine-translation-t5-finetuning/blob/main/machine-translation-t5-xl-pretrained.ipynb)), we directly use the pre-trained model for inference. Compute resource: Amazon SageMaker notebook instance (ml.g4dn.xlarge).
 
-In the `machine-translation-t5-xl-fine-tuning` notebook, we fine-tune the model first using our training dataset, and then use the fine-tuned model for inference. In addition, we also fine-tune the model with Deepspeed (reference: https://github.com/microsoft/DeepSpeed, https://huggingface.co/docs/accelerate/usage_guides/deepspeed). Compute resource: AWS EC2 instance (p5.48xlarge).
+In the `machine-translation-t5-xl-fine-tuning` notebook ([link](https://github.com/delongmeng/Machine-translation-t5-finetuning/blob/main/machine-translation-t5-xl-fine-tuning.ipynb)), we fine-tune the model first using our training dataset, and then use the fine-tuned model for inference. In addition, we also show how to fine-tune the model with DeepSpeed (references: [Microsoft DeepSpeed repo](https://github.com/microsoft/DeepSpeed), [Hugging Face DeepSpeed usage guide](https://huggingface.co/docs/accelerate/usage_guides/deepspeed)). Compute resource: AWS EC2 instance (p5.48xlarge).
 
 For details, please take a look at the notebooks.
 
@@ -51,11 +51,12 @@ localhost:8000/?token=....
 ```
 
 2. Set up Pytorch
-Since p5 instances use NVIDIA H100 GPUs which have a compute capability of 9.0, you might get this warning later because of incorrect Pytorch version that does not support the GPU and CUDA version.
+
+Since p5 instances use NVIDIA H100 GPUs which have a compute capability of 9.0, you might get the following warning later because of incorrect Pytorch version that does not support the GPU and CUDA version.
 
 >NVIDIA H100 80GB HBM3 with CUDA capability sm_90 is not compatible with the current PyTorch installation.
 The current PyTorch install supports CUDA capabilities sm_37 sm_50 sm_60 sm_70 sm_75 sm_80 sm_86.
-If you want to use the NVIDIA H100 80GB HBM3 GPU with PyTorch, please check the instructions athttps://pytorch.org/get-started/locally/
+If you want to use the NVIDIA H100 80GB HBM3 GPU with PyTorch, please check the instructions at https://pytorch.org/get-started/locally/
 
 
 - Check the CUDA version
@@ -74,15 +75,16 @@ python3 -c "import torch; print(torch.__version__)"
 ```
 
 
-3. Set up Deepspeed
+3. Set up DeepSpeed
 ```
 pip3 install -q deepspeed ninja --upgrade
 
-# can double check the status using the Deepspeed report:
+# can double check the status using the DeepSpeed report:
 python -c "import deepspeed; print(deepspeed.__version__)" && ds_report
 ```
 
 4. Set up NCCL (optional)
+
 You might need to set up NCCL communicator for multi-GPU and/or multi-node environment
 
 ```
