@@ -6,13 +6,15 @@ The dataset contains translation from English (EN, source language) to multiple 
 ### Bias
 Bias can exist in macine translation since the vast amount of data that a translation model is trained on can contain inherent biases. One such example is gender bias. In this dataset, sentences to translate contain references to male and female gender identities. The performance of the model can then be evaluated using a custom version of BiLingual Evaluation Understudy (BLEU) that considers both overall translation performance and the performance gap for different gender identities.
 
-### Pre-trained Model, fine-tuning, and inference
+### Pre-trained Large Language Model, fine-tuning, and inference
 
 Here we use the pre-trained [google/flan-t5-xl model](https://huggingface.co/google/flan-t5-xl) (3B parameters) from the Hugging Face platform.
 
-In the `machine-translation-t5-xl-pretrained` notebook ([link](https://github.com/delongmeng/Machine-translation-t5-finetuning/blob/main/machine-translation-t5-xl-pretrained.ipynb)), we directly use the pre-trained model for inference. Compute resource: Amazon SageMaker notebook instance (ml.g4dn.xlarge).
+In the `machine-translation-t5-xl-pretrained` notebook ([link](https://github.com/delongmeng/Machine-Translation-LLM-Finetuning/blob/main/machine-translation-t5-xl-pretrained.ipynb)), we directly use the pre-trained model for inference. Compute resource: Amazon SageMaker notebook instance (ml.g4dn.xlarge).
 
-In the `machine-translation-t5-xl-fine-tuning` notebook ([link](https://github.com/delongmeng/Machine-translation-t5-finetuning/blob/main/machine-translation-t5-xl-fine-tuning.ipynb)), we fine-tune the model first using our training dataset, and then use the fine-tuned model for inference. In addition, we also show how to fine-tune the model with DeepSpeed (references: [Microsoft DeepSpeed repo](https://github.com/microsoft/DeepSpeed), [Hugging Face DeepSpeed usage guide](https://huggingface.co/docs/accelerate/usage_guides/deepspeed)). Compute resource: AWS EC2 instance (p5.48xlarge).
+In the `machine-translation-t5-xl-fine-tuning` notebook ([link](https://github.com/delongmeng/Machine-Translation-LLM-Finetuning/blob/main/machine-translation-t5-xl-fine-tuning.ipynb)), we fine-tune the model first using our training dataset, and then use the fine-tuned model for inference. In addition, we also show how to fine-tune the model with DeepSpeed (references: [Microsoft DeepSpeed repo](https://github.com/microsoft/DeepSpeed), [Hugging Face DeepSpeed usage guide](https://huggingface.co/docs/accelerate/usage_guides/deepspeed)). Compute resource: AWS EC2 instance (p5.48xlarge).
+
+As expected, fine-tuning significantly improved the performance of the model on the specific machine translation task. The fine-tuned model can be found [here](https://huggingface.co/delmeng/flan-t5-xl-finetuned-translation-10132023).
 
 For details, please take a look at the notebooks.
 
